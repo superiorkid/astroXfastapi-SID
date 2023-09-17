@@ -1,0 +1,82 @@
+---
+import { Icon } from "astro-icon";
+import { Image } from "astro:assets";
+import Layout from "../../layouts/page-layout.astro";
+import moment from "moment";
+
+type TArticle = IBlog & {
+  author: IUser;
+};
+
+export const prerender = true;
+
+export const getStaticPaths = async () => {
+  const response = await fetch(`${import.meta.env.SERVER_API}/api/blog`);
+
+  if (!response.ok) {
+    throw new Error("failed to fetch blogs");
+  }
+
+  const { data: articles }: { data: TArticle[] } = await response.json();
+
+  return articles.map((article) => {
+    return {
+      params: { slug: article.slug },
+    };
+  });
+};
+
+const { slug } = Astro.params;
+
+const response = await fetch(`${import.meta.env.SERVER_API}/api/blog/${slug}`);
+if (!response.ok) {
+  throw new Error(`Failed to fetch ${slug}`);
+}
+
+const { data }: { data: TArticle } = await response.json();
+---
+
+<Layout title="detail blog">
+  <div class="max-w-[898px] mx-auto py-3 space-y-5">
+    <div class="h-80 w-full bg-gray-200 rounded-lg">
+      <Image
+        src={`${import.meta.env.SERVER_API}/img/blog/${data.image}`}
+        alt="blog detail image"
+        width={1024}
+        height={500}
+        decoding="async"
+        loading="eager"
+        class="object-cover w-full h-full rounded-lg"
+      />
+    </div>
+    <section
+      class="text-sm
+        flex
+        items-center
+        justify-between
+        px-3"
+    >
+      <div class="flex space-x-3">
+        <p class="capitalize">
+          <Icon name="mdi:account" class="w-5 h-5 inline" />
+          {data.author.username}
+        </p>
+        <p>
+          <Icon name="mdi:calendar-month" class="w-5 h-5 inline" />
+          {moment(data.publication_date).fromNow()}
+        </p>
+      </div>
+      <!-- <div class="flex items-center space-x-3">
+        <p>#tag1</p>
+        <p>#tag2</p>
+        <p>#tag3</p>
+      </div> -->
+    </section>
+    <section class="py-3">
+      <article class="prose">
+        <h1 class="capitalize">{data.title}</h1>
+        <p>{data.content}</p>
+      </article>
+    </section>
+  </div>
+</Layout>

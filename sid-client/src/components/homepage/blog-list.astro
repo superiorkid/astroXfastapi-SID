@@ -1,0 +1,44 @@
+---
+import Icon from "astro-icon";
+import Container from "../container.astro";
+import BlogCard from "../blogs/blog-card.astro";
+
+type TArticle = IBlog & {
+  author: IUser;
+};
+
+const response = await fetch(`${import.meta.env.SERVER_API}/api/blog`);
+
+const { data: articles }: { data: TArticle[] } = await response.json();
+---
+
+<Container>
+  <section class="flex h-[73dvh] flex-col justify-center">
+    <div class="flex justify-between px-2">
+      <h2 class="font-semibold text-2xl">blogs</h2>
+      <a href="/blog" class="hover:underline">
+        more
+        <Icon name="mdi:arrow-top-right" class="w-4 h-4 mr-1 inline" />
+      </a>
+    </div>
+    <hr class="my-3" />
+    <div>
+      <div class="grid grid-cols-2 gap-6">
+        {
+          articles
+            .slice(0, 4)
+            .map((article) => (
+              <BlogCard
+                content={article.content}
+                title={article.title}
+                publication_date={article.publication_date}
+                image={article.image}
+                slug={article.slug}
+                username={article.author.username}
+              />
+            ))
+        }
+      </div>
+    </div>
+  </section>
+</Container>

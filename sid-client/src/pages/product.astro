@@ -1,0 +1,36 @@
+---
+import Heading from "../components/blogs/heading.astro";
+import Layout from "../layouts/page-layout.astro";
+import ProductCard from "../components/product/product-card.astro";
+
+const response = await fetch("http://127.0.0.1:8001/api/product");
+
+if (!response.ok) {
+  throw new Error("failed to fetch product");
+}
+
+const { data: products }: { data: IProduct[] } = await response.json();
+---
+
+<Layout title="Product page">
+  <main class="py-5">
+    <Heading
+      title="Produk desa"
+      description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, corporis."
+    />
+    <hr class="my-3" />
+    <section class="grid grid-cols-4 gap-4">
+      {
+        products.map((product) => (
+          <ProductCard
+            id={product.id}
+            name={product.name}
+            price={product.price}
+            image={product.image}
+            quantity={product.stock}
+          />
+        ))
+      }
+    </section>
+  </main>
+</Layout>

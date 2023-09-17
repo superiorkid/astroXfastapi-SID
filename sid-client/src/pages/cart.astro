@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/page-layout.astro";
+import CartItems from "../components/cart-items";
+import Heading from "../components/blogs/heading.astro";
+---
+
+<Layout title="Card page">
+  <div class="max-w-2xl mx-auto my-5">
+    <Heading title="Cart Item" />
+    <CartItems client:only="react" />
+  </div>
+</Layout>

@@ -1,0 +1,14 @@
+---
+import BlogList from "../components/homepage/blog-list.astro";
+import Hero from "../components/homepage/hero.astro";
+import ProductList from "../components/homepage/product-list.astro";
+import Layout from "../layouts/default.astro";
+---
+
+<Layout title="Homepage">
+  <main class="space-y-10">
+    <Hero />
+    <ProductList />
+    <BlogList />
+  </main>
+</Layout>

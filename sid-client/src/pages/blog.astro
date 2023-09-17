@@ -1,0 +1,50 @@
+---
+import BlogCard from "../components/blogs/blog-card.astro";
+import Heading from "../components/blogs/heading.astro";
+import Layout from "../layouts/page-layout.astro";
+
+const response = await fetch(`${import.meta.env.SERVER_API}/api/blog`);
+
+if (!response.ok) {
+  throw new Error("failed to fetch blog");
+}
+
+type TArticles = IBlog & {
+  author: IUser;
+};
+
+const { data: articles }: { data: TArticles[] } = await response.json();
+---
+
+<Layout title="Blog page">
+  <div class="max-w-[898px] mx-auto py-5">
+    <Heading title="berita desa" />
+    <hr class="my-3" />
+    <div class="space-y-3.5">
+      {
+        articles.length ? (
+          articles.map((article) => (
+            <BlogCard
+              title={article.title}
+              content={article.content}
+              image={article.image}
+              publication_date={article.publication_date}
+              slug={article.slug}
+              username={article.author.username}
+            />
+          ))
+        ) : (
+          <div class="flex justify-center">
+            <p class="bg-rose-500 py-2.5 rounded-md w-full text-center text-white">
+              Location{"'"}s is empty
+            </p>
+          </div>
+        )
+      }
+
+      <div class="flex justify-center py-10">
+        <p>TODO: Optimistic update</p>
+      </div>
+    </div>
+  </div>
+</Layout>

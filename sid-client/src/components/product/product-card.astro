@@ -1,0 +1,43 @@
+---
+import { Image } from "astro:assets";
+import AddToCartBtn from "./add-to-cart-btn";
+
+interface Props {
+  name: string;
+  image: string;
+  price: number;
+  quantity: number;
+  id: number;
+}
+
+const { name, image, price, quantity, id } = Astro.props;
+---
+
+<div class="w-full shadow-sm border h-[46dvh] rounded-md">
+  <div class="h-[83%] relative">
+    <Image
+      src={`http://127.0.0.1:8001/img/product/${image}`}
+      width={1024}
+      height={650}
+      alt={name}
+      class="object-cover w-full h-full brightness-95 absolute -z-10"
+      loading="lazy"
+    />
+    {
+      Astro.cookies.has("isLoggedin") && (
+        <AddToCartBtn
+          client:only="react"
+          name={name}
+          image={image}
+          id={id}
+          price={price}
+          stock={quantity}
+        />
+      )
+    }
+  </div>
+  <div class="py-2 px-3 space-y-2">
+    <p class="text-sm font-bold font-mono">Rp.{price}</p>
+    <h4 class="font-medium pointer-events-none">{name}</h4>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon";
+import moment from "moment";
+
+type TArticle = Pick<
+  IBlog,
+  "image" | "content" | "title" | "publication_date" | "slug"
+>;
+
+type TUser = Pick<IUser, "username">;
+
+type Props = TUser & TArticle;
+
+const { content, image, publication_date, slug, title, username } = Astro.props;
+---
+
+<div class="max-h-[45dvh] flex space-x-5 border">
+  <Image
+    src={`${import.meta.env.SERVER_API}/img/blog/${image}`}
+    width={1920}
+    height={2400}
+    alt="blog image placeholder"
+    loading="lazy"
+    class="object-cover w-40 rounded-l-md"
+  />
+  <div class="py-3 space-y-2.5 pr-5">
+    <a
+      href={`/blog/${slug}`}
+      class="font-semibold text-2xl hover:underline capitalize">{title}</a
+    >
+    <p class="font-light text-sm leading-relaxed line-clamp-2">
+      {content}
+    </p>
+    <div class="flex space-x-5 text-sm text-gray-700">
+      <p class="capitalize">
+        <Icon name="mdi:account" class="w-4 h-4 mr-0.5 inline-flex" />
+        {username}
+      </p>
+      <time>
+        <Icon
+          name="mdi:calendar-month-outline"
+          class="w-4 h-4 mr-0.5 inline-flex"
+        />
+        {moment(publication_date).fromNow()}
+      </time>
+    </div>
+  </div>
+</div>

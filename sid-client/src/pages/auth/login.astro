@@ -1,0 +1,43 @@
+---
+import { Image } from "astro:assets";
+import LoginForm from "../../components/auth/login-form";
+
+if (Astro.cookies.has("isLoggedin")) {
+  return Astro.redirect("/");
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="min-h-screen flex">
+      <div class="flex-1 relative">
+        <Image
+          src="https://images.unsplash.com/photo-1611403570720-162d8829689a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+          alt="login bg"
+          width="1024"
+          height="1024"
+          decoding="async"
+          loading="eager"
+          class="object-cover h-full brightness-75"
+        />
+        <div
+          class="absolute top-10 left-16 z-10 p-5 text-white bg-black rounded-xl border-2 border-black opacity-80 w-[320px] space-y-2"
+        >
+          <a href="/" class="text-3xl font-bold">Desa Puri Indah</a>
+          <p class="text-sm tracking-wider leading-snug">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo,
+            aspernatur!
+          </p>
+        </div>
+      </div>
+      <div class="flex-1 bg-gray-100 flex items-center justify-center">
+        <LoginForm client:only="react" />
+      </div>
+    </div>
+  </body>
+</html>

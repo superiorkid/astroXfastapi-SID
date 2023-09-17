@@ -1,0 +1,37 @@
+---
+import Container from "../container.astro";
+import { Image } from "astro:assets";
+---
+
+<section class="flex h-[75dvh] relative">
+  <Image
+    src="https://images.unsplash.com/photo-1671080749770-791e382d681c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2076&q=80"
+    width={2400}
+    height={1589}
+    loading="eager"
+    decoding="async"
+    alt="gambar kantor desa astroxsid"
+    class="object-cover brightness-50 absolute top-0 left-0 w-full h-full"
+  />
+  <Container
+    styles="z-10 max-w-screen-md mx-auto flex flex-col h-full justify-center text-gray-100 text-center space-y-2"
+  >
+    <h1 class="text-3xl lg:text-5xl font-bold tracking-wide">Desa AstroxSID</h1>
+    <p class="leading-snug text-sm md:text-xl">
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+      doloremque a ducimus similique autem dicta magnam repellendus praesentium.
+    </p>
+    <div class="flex space-x-3 justify-center pt-3">
+      <a
+        href="/about"
+        class="border px-3 py-1.5 rounded-md bg-gray-50 text-gray-800"
+        >Tentang</a
+      >
+      <a
+        href="/product"
+        class="px-3 py-1.5 rounded-md border border-transparent hover:border-white"
+        >Produk desa</a
+      >
+    </div>
+  </Container>
+</section>
